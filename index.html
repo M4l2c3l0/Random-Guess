@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title>JS Project</title>
+    <style>
+      #container {
+        text-align: center;
+      }
+      #box {
+        margin: 150px auto 0 auto;
+        width: 200px;
+        height: 200px;
+        background-color: red;
+        border-radius: 25%;
+        position: relative;
+      }
+      
+      #gold {
+        font-size: 30px;
+        color: gold;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+      }
+      
+      #container {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='container'>
+      <p id='gold'>RECORD TIME: <span id='best'>1</span>seconds</p>
+      <hr>
+      <p>Your Time: <span id='time'></span>seconds<span id='alert'></span></p>
+      <div id='box'></div>
+    </div>
+    
+    <script>
+      function getRandomColor() {
+        var letters = '0123456789abcdef'.split('');
+        var color = '#';
+        for(var i = 0; i < 6; i++) {
+          color += letters[Math.round(Math.random() * 15)];
+        }
+        return color;
+      }
+            
+      var clickedTime, createdTime, reactTime, bestTime;
+      
+      function makeBox() {
+        var time=Math.floor(Math.random()*5000+1);
+        setTimeout(function() {
+          document.getElementById('box').style.backgroundColor = getRandomColor();
+          document.getElementById('box').style.display='block';
+          createdTime=Date.now();
+        },time);
+      }
+      
+      function checkBestTime(bestTime, reactTime) {
+        if(this.bestTime>this.reactTime) {
+          var top = Math.round(Math.random() * 300);
+          var left = Math.round(Math.random() * 500);
+          document.getElementById('box').style.top = top + 'px';
+          document.getElementById('box').style.left = left + 'px';
+          document.getElementById('alert').innerHTML='<br>NEW BEST SCORE!!!';
+          document.getElementById('best').innerHTML=this.reactTime;
+        } else {
+          document.getElementById('alert').innerHTML='<br>Try Again!';
+        }
+      }
+      
+      document.getElementById('box').onclick=function() {
+        clickedTime=Date.now();
+        reactTime=(clickedTime-createdTime)/1000;
+        bestTime=document.getElementById('best').innerHTML;
+        checkBestTime(bestTime, reactTime);
+        document.getElementById('time').innerHTML=reactTime;
+        this.style.display='none';
+        makeBox();
+      }
+      makeBox();
+    </script>
+    
+  </body>
+</html>
